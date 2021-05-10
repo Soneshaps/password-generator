@@ -1,14 +1,17 @@
 var generatedString
 var passwordLength = 17
+
+//Function to Random Password
 function generatePassword(){
+    
+    //taking the value from the input 
     var totalLetter = document.getElementById("total-number").value
     var isLowerCase = document.getElementById("lowercase").checked
     var isUpperCase = document.getElementById("uppercase").checked
     var isNumber = document.getElementById("number").checked
     var isSymbol = document.getElementById("symbol").checked
-    console.log(isLowerCase)
     
-    
+    //Setting up variable 
     var lowerCase = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
     var numbers 
     var symbol
@@ -20,6 +23,7 @@ function generatePassword(){
     console.log(upperCase)
     var flag = 0
     
+    //Condition for checked and unchecked input
     if(isLowerCase){
          lowerCase = lowerCase ;
          flag += 1
@@ -41,14 +45,14 @@ function generatePassword(){
     }else{
        numbers = [''];
     }
-    
-    
     if(isSymbol){
         symbol = ['!','@','#','$','%','^','&','*','(',')'];
         flag += 1
     }else{
        symbol = [''];
     }
+
+    //Getting the random index for all the cases 
     var upperCaseG = []
     var lowerCaseG = []
     var symbolG = []
@@ -60,37 +64,35 @@ function generatePassword(){
          numberG[j] = numbers[Math.floor(Math.random() * numbers.length)];
         
     }
-    console.log(lowerCaseG)
-    console.log(upperCaseG)
-    console.log(symbolG)
-    console.log(numberG)
-    
+
+    //adding all the arrays into one array 
     var generatedArray = upperCaseG.concat(lowerCaseG,numberG,symbolG)
+
+    //removing the ''(Empty) string from the array
     var itemToRemove = ''
     generatedArray = generatedArray.filter(item => item !== itemToRemove)
-    console.log(generatedArray)
     
+    //suffing the array into random index
     function shuffle(array) {
         array.sort(() => Math.random() - 0.5);
       }
     
-    shuffle(generatedArray);
-    var spliceNumber 
+    shuffle(generatedArray); 
 
-    spliceNumber =  totalLetter*(flag-1)
-   
-    
+    //Getting the first totalLetter 
+    var spliceNumber =  totalLetter*(flag-1)
     var splicedArray = generatedArray.splice(spliceNumber)
     
-    
+    //Joining the array into string 
     generatedString = splicedArray.join('')
-    console.log(splicedArray)
+
+    //showing the password area by calling showPasswordArea()
     showPasswordArea()
 
     return document.getElementById('password-area').innerHTML = generatedString
 }
 
-
+//function for copying password 
 function copyPassword() {
     var tempInput = document.createElement("input");
     document.body.appendChild(tempInput);
@@ -101,11 +103,13 @@ function copyPassword() {
     showClipboard()
 }
 
+//function for showing password area 
 function showPasswordArea(){
     var passwordArea = document.getElementById('password-area-main');
     passwordArea.style.display = 'block'
 }
 
+//function for shwoing "Password Copied" div for 500ms
 function showClipboard(){
     var clipboard = document.getElementById('display-copied');
     clipboard.style.display = 'inline-block'
@@ -114,6 +118,7 @@ function showClipboard(){
     }, 500);
 }
 
+//function for always checking one of 4 boxes  
 function balanceCheckbox() {
     var isLowerCase = document.getElementById("lowercase").checked
     var isUpperCase = document.getElementById("uppercase").checked
@@ -125,6 +130,8 @@ function balanceCheckbox() {
 }
 balanceCheckbox()
 
+
+//function for slider range and input to sync numbers 
 function inputSliderRangeValue(value){
     if(value>32) value = 32;
     if(value<2) value = 2;
@@ -134,4 +141,50 @@ function inputSliderRangeValue(value){
 }
 
 
+//function for Dark Mode and Light Mode 
+var darkMode = true 
+
+function toogleMode(){
+    darkMode = !darkMode
+    var body = document.getElementsByTagName('body')[0];
+    var checkCircleOne = document.getElementById('slider1')
+    var checkCircleTwo = document.getElementById('slider2')
+    var checkCircleThree = document.getElementById('slider3')
+    var checkCircleFour = document.getElementById('slider4')
+    var generateButton = document.getElementById('generate-button')
+    var generatePasswordArea = document.getElementById('generated-password')
+    var copyArea = document.getElementById('copy-area')
+    var displayCopid = document.getElementById('display-copied')
+
+    if(!darkMode){
+        body.style.backgroundColor = "#ffffff"
+        body.style.color = "#424242"
+        body.style.fontWeight = "600"
+        checkCircleOne.classList.add("slider-light");
+        checkCircleTwo.classList.add("slider-light");
+        checkCircleThree.classList.add("slider-light");
+        checkCircleFour.classList.add("slider-light");
+        generateButton.classList.add('generate-button-light')
+        generatePasswordArea.style.backgroundColor = "rgb(131 114 151)"
+        generatePasswordArea.style.color = "#ffffff"
+        generatePasswordArea.style.fontWeight = "400"
+        copyArea.classList.add('copy-area-light')
+        displayCopid.style.fontWeight = "400"
+
+
+    }else{
+        body.style.backgroundColor = "#121212"
+        body.style.color = "#9e9e9e"
+        body.style.fontWeight = "400"
+        checkCircleOne.classList.remove("slider-light");
+        checkCircleTwo.classList.remove("slider-light");
+        checkCircleThree.classList.remove("slider-light");
+        checkCircleFour.classList.remove("slider-light");
+        generateButton.classList.remove('generate-button-light')
+        generatePasswordArea.style.color = "#9e9e9e"
+        generatePasswordArea.style.backgroundColor = "#433e47"
+        copyArea.classList.remove('copy-area-light')
+        displayCopid.style.fontWeight = "600"
+    }
+}
 
